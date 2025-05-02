@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Playwrite+MX+Guides&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <title>Swipeable Card Carousel</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .head-carousel {
+        padding: 20px 50px 0 80px;
+        font-family: "Poppins";
+        font-size: 35px;
+        width: 100%;
+        color: #333;
+      }
+      .Web-Carousel-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* height: 100vh; */
+        .carousel-container2 {
+          margin-top: 40px;
+          position: relative;
+          width: 75%;
+          max-width: 1200px;
+          overflow: hidden;
+        }
+
+        .carousel-wrapper2 {
+          overflow: hidden;
+        }
+
+        .carousel2 {
+          display: flex;
+          transition: transform 0.3s ease;
+          cursor: grab;
+          gap: 20px; /* Controls spacing */
+        }
+
+        .carousel:active {
+          cursor: grabbing;
+        }
+
+        .card-itm {
+          flex: 0 0 31.3333%;
+        }
+        .pagination-info {
+          font-family: "Poppins";
+          font-size: 14px;
+          color: #333;
+        }
+
+        .carousel-item2 {
+          background-color: #fdcecd24;
+          padding: 15px;
+          /* width: 300px; */
+          border-radius: 20px;
+        }
+        .carousel-images2 {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          .carousel-image-item2 {
+            flex: 1;
+            img {
+              width: 100%;
+              height: 140px;
+              object-fit: cover;
+              border-radius: 20px;
+            }
+          }
+        }
+        .visible {
+          font-family: "Poppins";
+          text-transform: uppercase;
+          font-weight: light;
+          font-size: 13px;
+          margin-top: 15px;
+          letter-spacing: 1px;
+        }
+        .days2 {
+          font-family: "Poppins";
+          font-weight: light;
+          font-size: 13px;
+          margin-top: 5px;
+        }
+        .carousel-head {
+          font-family: "TWKLausanne", sans-serif !important;
+          font-size: 17px;
+          margin: 10px 0 15px 0;
+        }
+        .carousel-contents {
+          font-family: "TWKLausanne", sans-serif !important;
+          font-size: 14px;
+          margin: 15px 0;
+        }
+        .carousel-name {
+          font-family: "TWKLausanne", sans-serif !important;
+          font-size: 13px;
+        }
+      }
+      .pad-cont {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-top: 20px;
+        justify-content: center;
+      }
+      .left-btn {
+        height: 20px;
+        width: 20px;
+        border-radius: 40px;
+        background-color: transparent;
+        border: 1px solid #ad686f;
+        color: #ad686f;
+        font-size: 10px;
+        transition: 250ms;
+        cursor: pointer;
+      }
+      .left-btn:hover {
+        color: white;
+        background-color: #ad686f;
+      }
+      .right-btn {
+        height: 20px;
+        width: 20px;
+        border-radius: 40px;
+        background-color: transparent;
+        border: 1px solid #ad686f;
+        color: #ad686f;
+        font-size: 10px;
+        transition: 250ms;
+        cursor: pointer;
+      }
+      .right-btn:hover {
+        color: white;
+        background-color: #ad686f;
+      }
+      .carousel-footer {
+        width: 70%;
+        text-align: center;
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-self: center;
+        font-family: "Poppins";
+        font-size: 12px;
+        color: #ad686f;
+      }
+      /* Medium screens */
+      @media (max-width: 919px) {
+        .Web-Carousel-body {
+          .carousel-container2 {
+            width: 90%;
+          }
+          .card-itm {
+            flex: 0 0 50%;
+          }
+        }
+        .head-carousel {
+          padding: 20px;
+        }
+      }
+      /* Small screens */
+      @media (max-width: 480px) {
+        .head-carousel {
+          width: 80%;
+        }
+
+        .Web-Carousel-body {
+          .card-itm {
+            flex: 0 0 100%;
+          }
+        }
+        .carousel-container2 {
+          margin-top: 10px !important;
+        }
+        .carousel-footer {
+          width: 90;
+        }
+      }
+      @media (max-width: 480px) {
+        .Web-Carousel-body {
+          .card-itm {
+            flex: 0 0 100%;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="head-carousel">Real Skin . Real Change</div>
+    <div class="Web-Carousel-body">
+      <div class="carousel-container2">
+        <div class="carousel-wrapper2">
+          <div class="carousel2">
+            <div class="card-itm">
+              <div class="carousel-item2">
+                <div class="carousel-images2">
+                  <div class="carousel-image-item2">
+                    <div>
+                      <img
+                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746195280/before_onkczn.png"
+                      />
+                    </div>
+                    <div class="days2">Day 1</div>
+                  </div>
+                  <div class="carousel-image-item2">
+                    <div>
+                      <img
+                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746196239/after_rinrmu.png"
+                      />
+                    </div>
+                    <div class="days2">Day 21</div>
+                  </div>
+                </div>
+                <div class="visible">Visible improvement</div>
+                <div class="carousel-head">Clear & Confident</div>
+                <div class="carousel-contents">
+                  *Thanks to luminence's beef tallow, my skin has never been
+                  clearer. No more breakouts or uneven patches, just smooth
+                  skin.*
+                </div>
+                <div class="carousel-name">Jasmine , 28</div>
+              </div>
+            </div>
+            <div class="card-itm">
+              <div class="carousel-item2">
+                <div class="carousel-images2">
+                  <div class="carousel-image-item2">
+                    <div>
+                      <img
+                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746196288/before_cgc30a.png"
+                      />
+                    </div>
+                    <div class="days2">Day 1</div>
+                  </div>
+                  <div class="carousel-image-item2">
+                    <div>
+                      <img
+                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746196347/after_wusac5.png"
+                      />
+                    </div>
+                    <div class="days2">Day 26</div>
+                  </div>
+                </div>
+                <div class="visible">Visible improvement</div>
+                <div class="carousel-head">Ageless Radiance</div>
+                <div class="carousel-contents">
+                  *I’ve tried many products, but Luminence's beef tallow truly
+                  delivers. My skin feels firmerand the lines are softened. *
+                </div>
+                <div class="carousel-name">Monica , 41</div>
+              </div>
+            </div>
+            <div class="card-itm">
+              <div class="carousel-item2">
+                <div class="carousel-images2">
+                  <div class="carousel-image-item2">
+                    <div>
+                      <img
+                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746196414/before_t8ef3v.png"
+                      />
+                    </div>
+                    <div class="days2">Day 1</div>
+                  </div>
+                  <div class="carousel-image-item2">
+                    <div>
+                      <img
+                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746196453/after_ozctjp.png"
+                      />
+                    </div>
+                    <div class="days2">Day 19</div>
+                  </div>
+                </div>
+                <div class="visible">Visible improvement</div>
+                <div class="carousel-head">Sun-Kissed Glow</div>
+                <div class="carousel-contents">
+                  *Luminence's tallow balm transformed my skincare routine. It
+                  keeps my skin soft,radiant, and well-protected.*
+                </div>
+                <div class="carousel-name">Lena , 22</div>
+              </div>
+            </div>
+            <div class="card-itm">
+              <div class="carousel-item2">
+                <div class="carousel-images2">
+                  <div class="carousel-image-item2">
+                    <div>
+                      <img
+                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746196668/before_do6cjj.png"
+                      />
+                    </div>
+                    <div class="days2">Day 1</div>
+                  </div>
+                  <div class="carousel-image-item2">
+                    <div>
+                      <img
+                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746196723/Screenshot_2025-05-02_153802_s7p6tz.png"
+                      />
+                    </div>
+                    <div class="days2">Day 28</div>
+                  </div>
+                </div>
+                <div class="visible">Visible improvement</div>
+                <div class="carousel-head">Deep Hydration</div>
+                <div class="carousel-contents">
+                  *My skin was always dry until I discovered Luminence’s tallow
+                  balm.Now it’s smooth, bouncy, and deeply nourished*
+                </div>
+                <div class="carousel-name">Sophie , 36</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pad-cont">
+          <button class="left-btn">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="pagination-info"></div>
+          <button class="right-btn">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-footer">
+      individual review may vary , Everyone's skin is unique and may respond
+      diffrently. Results are not guaranteed. We offer a 60-day money back
+      guarantee so you can exerience it fpr yourself-love it, or return it
+      hassle-free
+    </div>
+
+    <script>
+      const carousel = document.querySelector(".carousel2");
+      const paginationInfo = document.querySelector(".pagination-info");
+      const cards = document.querySelectorAll(".card-itm");
+      const leftBtn = document.querySelector(".left-btn");
+      const rightBtn = document.querySelector(".right-btn");
+
+      leftBtn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+          currentIndex -= 1;
+          setPositionByIndex();
+        }
+      });
+
+      rightBtn.addEventListener("click", () => {
+        if (currentIndex < cards.length - getVisibleCards()) {
+          currentIndex += 1;
+          setPositionByIndex();
+        }
+      });
+
+      let currentIndex = 0;
+      let startX = 0;
+      let currentTranslate = 0;
+      let prevTranslate = 0;
+      let isDragging = false;
+      let animationID;
+      let cardWidth = cards[0].offsetWidth + 20;
+
+      function getVisibleCards() {
+        if (window.innerWidth <= 480) return 1;
+        if (window.innerWidth <= 919) return 2;
+        return 3;
+      }
+
+      function setSliderPosition() {
+        carousel.style.transform = `translateX(${currentTranslate}px)`;
+      }
+
+      function updatePaginationInfo() {
+        const visibleCards = getVisibleCards(); // Number of visible cards based on screen size
+        const scrollLeft = Math.abs(currentTranslate);
+        const firstVisibleIndex = Math.round(scrollLeft / cardWidth);
+        const lastVisibleIndex = Math.min(
+          firstVisibleIndex + visibleCards - 1,
+          cards.length - 1
+        );
+        const current = lastVisibleIndex + 1;
+        const total = cards.length;
+        paginationInfo.textContent = `${current}/${total}`;
+      }
+
+      function setPositionByIndex() {
+        currentTranslate = currentIndex * -cardWidth;
+        prevTranslate = currentTranslate;
+        setSliderPosition();
+        updatePaginationInfo();
+      }
+
+      function animation() {
+        setSliderPosition();
+        if (isDragging) requestAnimationFrame(animation);
+      }
+
+      function touchStart(index) {
+        return function (event) {
+          isDragging = true;
+          startX = getPositionX(event);
+          animationID = requestAnimationFrame(animation);
+          carousel.classList.add("grabbing");
+        };
+      }
+
+      function touchMove(event) {
+        if (isDragging) {
+          const currentPosition = getPositionX(event);
+          currentTranslate = prevTranslate + currentPosition - startX;
+        }
+      }
+
+      function touchEnd() {
+        cancelAnimationFrame(animationID);
+        isDragging = false;
+        const movedBy = currentTranslate - prevTranslate;
+
+        if (movedBy < -100 && currentIndex < cards.length - getVisibleCards()) {
+          currentIndex += 1;
+        }
+        if (movedBy > 100 && currentIndex > 0) {
+          currentIndex -= 1;
+        }
+
+        setPositionByIndex();
+        carousel.classList.remove("grabbing");
+      }
+
+      function getPositionX(event) {
+        return event.type.includes("mouse")
+          ? event.pageX
+          : event.touches[0].clientX;
+      }
+
+      // Event Listeners
+      carousel.addEventListener("mousedown", touchStart(currentIndex));
+      carousel.addEventListener("mousemove", touchMove);
+      carousel.addEventListener("mouseup", touchEnd);
+      carousel.addEventListener("mouseleave", () => {
+        if (isDragging) touchEnd();
+      });
+
+      carousel.addEventListener("touchstart", touchStart(currentIndex));
+      carousel.addEventListener("touchmove", touchMove);
+      carousel.addEventListener("touchend", touchEnd);
+
+      window.addEventListener("resize", () => {
+        cardWidth = cards[0].offsetWidth + 20;
+        setPositionByIndex();
+      });
+
+      setPositionByIndex();
+    </script>
+  </body>
+</html>
