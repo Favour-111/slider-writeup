@@ -133,7 +133,7 @@
         margin-top: 20px;
         justify-content: center;
       }
-      .left-btn {
+      /* .left-btn {
         height: 20px;
         width: 20px;
         border-radius: 40px;
@@ -144,10 +144,7 @@
         transition: 250ms;
         cursor: pointer;
       }
-      .left-btn:hover {
-        color: white;
-        background-color: #ad686f;
-      }
+      
       .right-btn {
         height: 20px;
         width: 20px;
@@ -158,11 +155,28 @@
         font-size: 10px;
         transition: 250ms;
         cursor: pointer;
-      }
-      .right-btn:hover {
-        color: white;
+      } */
+
+      .left-btn,
+      .right-btn {
+        height: 20px;
+        width: 20px;
+        border-radius: 40px;
         background-color: #ad686f;
+        border: 1px solid #ad686f;
+        color: white;
+        font-size: 10px;
+        transition: 250ms;
+        cursor: pointer;
       }
+
+      .left-btn:disabled,
+      .right-btn:disabled {
+        background-color: #ad686f; /* Change to light color */
+        color: white; /* Optional: change icon color */
+        cursor: not-allowed; /* Disable cursor */
+      }
+
       .carousel-footer {
         width: 70%;
         text-align: center;
@@ -315,7 +329,7 @@
                   <div class="carousel-image-item2">
                     <div>
                       <img
-                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746196668/before_do6cjj.png"
+                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746224671/before_kgptbe.png"
                       />
                     </div>
                     <div class="days2">Day 1</div>
@@ -323,7 +337,7 @@
                   <div class="carousel-image-item2">
                     <div>
                       <img
-                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746196723/Screenshot_2025-05-02_153802_s7p6tz.png"
+                        src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746224677/after_ag92xo.png"
                       />
                     </div>
                     <div class="days2">Day 28</div>
@@ -370,6 +384,7 @@
           currentIndex -= 1;
           setPositionByIndex();
         }
+        updateButtonState(); // Update the button state after clicking
       });
 
       rightBtn.addEventListener("click", () => {
@@ -377,7 +392,34 @@
           currentIndex += 1;
           setPositionByIndex();
         }
+        updateButtonState(); // Update the button state after clicking
       });
+      window.addEventListener("load", () => {
+        // Initial state when the page loads
+        updateButtonState();
+      });
+
+      function updateButtonState() {
+        if (currentIndex === 0) {
+          leftBtn.style.backgroundColor = "#fff"; // Normal color
+          leftBtn.style.borderColor = "#ad686f"; // Light color when at the start
+          leftBtn.style.color = "#ad686f"; // Optional: change the icon color too
+        } else {
+          leftBtn.style.backgroundColor = "#ad686f"; // Normal color
+          leftBtn.style.borderColor = "#ad686f"; // Normal color
+          leftBtn.style.color = "white"; // Optional: change the icon color too
+        }
+
+        if (currentIndex >= cards.length - getVisibleCards()) {
+          rightBtn.style.backgroundColor = "#fff"; // Normal color
+          rightBtn.style.borderColor = "#ad686f"; // Light color when at the start
+          rightBtn.style.color = "#ad686f"; // Optional: change the icon color too
+        } else {
+          rightBtn.style.backgroundColor = "#ad686f"; // Normal color
+          rightBtn.style.borderColor = "#ad686f"; // Normal color
+          rightBtn.style.color = "white"; // Optional: change the icon color too
+        }
+      }
 
       let currentIndex = 0;
       let startX = 0;
