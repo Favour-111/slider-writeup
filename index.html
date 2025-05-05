@@ -16,9 +16,13 @@
         padding: 20px;
       }
 
+      .slider-wrapper {
+        position: relative;
+        width: 100%;
+      }
+
       .slider-container {
         overflow: hidden;
-        position: relative;
         width: 100%;
       }
 
@@ -29,40 +33,75 @@
       }
 
       .card {
-        min-width: 100%;
+        width: 100%;
         flex-shrink: 0;
         padding: 20px;
-        margin: 10px;
         background: #f0f0f0;
         border-radius: 10px;
         text-align: center;
         font-size: 1.5rem;
       }
 
-      /* Medium screens: 2 slides */
       @media (min-width: 600px) {
         .card {
-          min-width: 50%;
+          width: 50%;
         }
       }
 
-      /* Large screens: 3 slides */
       @media (min-width: 900px) {
         .card {
-          min-width: 33.33%;
+          width: 33.33%;
         }
+      }
+
+      .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #333;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 1;
+        border-radius: 50%;
+        opacity: 0.7;
+        transition: background 0.3s ease;
+      }
+
+      .arrow:hover {
+        opacity: 1;
+      }
+
+      .arrow.left {
+        left: 10px;
+      }
+
+      .arrow.right {
+        right: 10px;
+      }
+
+      .arrow.right.end {
+        background: crimson;
       }
     </style>
   </head>
   <body>
-    <div class="slider-container" id="slider">
-      <div class="slider-track">
-        <div class="card">Slide 1</div>
-        <div class="card">Slide 2</div>
-        <div class="card">Slide 3</div>
-        <div class="card">Slide 4</div>
-        <div class="card">Slide 5</div>
+    <div class="slider-wrapper">
+      <button class="arrow left" id="arrowLeft">←</button>
+
+      <div class="slider-container" id="slider">
+        <div class="slider-track" id="track">
+          <div class="card">Slide 1</div>
+          <div class="card">Slide 2</div>
+          <div class="card">Slide 3</div>
+          <div class="card">Slide 4</div>
+          <div class="card">Slide 5</div>
+        </div>
       </div>
+
+      <button class="arrow right" id="arrowRight">→</button>
     </div>
 
     <script>
@@ -74,9 +113,16 @@
       let prevTranslate = 0;
       let isDragging = false;
 
+      // Mobile: Touch
       slider.addEventListener("touchstart", touchStart);
       slider.addEventListener("touchmove", touchMove);
       slider.addEventListener("touchend", touchEnd);
+
+      // Desktop: Mouse
+      slider.addEventListener("mousedown", dragStart);
+      slider.addEventListener("mousemove", dragMove);
+      slider.addEventListener("mouseup", dragEnd);
+      slider.addEventListener("mouseleave", dragEnd); // Stop dragging if mouse leaves area
 
       function touchStart(e) {
         startX = e.touches[0].clientX;
@@ -91,9 +137,33 @@
       }
 
       function touchEnd(e) {
+        if (!isDragging) return;
         isDragging = false;
         const movedBy = e.changedTouches[0].clientX - startX;
+        handleSlideMovement(movedBy);
+      }
 
+      function dragStart(e) {
+        e.preventDefault(); // prevent text selection
+        startX = e.clientX;
+        isDragging = true;
+      }
+
+      function dragMove(e) {
+        if (!isDragging) return;
+        const currentX = e.clientX;
+        const diff = currentX - startX;
+        track.style.transform = `translateX(${prevTranslate + diff}px)`;
+      }
+
+      function dragEnd(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        const movedBy = e.clientX - startX;
+        handleSlideMovement(movedBy);
+      }
+
+      function handleSlideMovement(movedBy) {
         const cardWidth = slider.offsetWidth / getSlidesPerView();
         const threshold = cardWidth / 4;
 
@@ -107,11 +177,11 @@
         const trackWidth = track.scrollWidth;
         const maxNegativeTranslate = slider.offsetWidth - trackWidth;
 
-        // Clamp
         currentTranslate = Math.max(
           maxNegativeTranslate,
           Math.min(currentTranslate, maxTranslate)
         );
+
         track.style.transform = `translateX(${currentTranslate}px)`;
         prevTranslate = currentTranslate;
       }
