@@ -19,6 +19,7 @@
       .slider-wrapper {
         position: relative;
         width: 100%;
+        overflow: hidden;
       }
 
       .slider-container {
@@ -58,20 +59,15 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: #333;
-        color: white;
+        background-color: #ccc;
         border: none;
-        font-size: 2rem;
-        padding: 10px;
-        cursor: pointer;
-        z-index: 1;
         border-radius: 50%;
-        opacity: 0.7;
-        transition: background 0.3s ease;
-      }
-
-      .arrow:hover {
-        opacity: 1;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 2;
+        transition: background-color 0.3s;
       }
 
       .arrow.left {
@@ -82,15 +78,15 @@
         right: 10px;
       }
 
-      .arrow.right.end {
-        background: crimson;
+      .arrow.disabled {
+        background-color: #999;
+        cursor: not-allowed;
       }
     </style>
   </head>
   <body>
     <div class="slider-wrapper">
-      <button class="arrow left" id="arrowLeft">←</button>
-
+      <button class="arrow left" id="prev">&#8592;</button>
       <div class="slider-container" id="slider">
         <div class="slider-track" id="track">
           <div class="card">Slide 1</div>
@@ -100,91 +96,19 @@
           <div class="card">Slide 5</div>
         </div>
       </div>
-
-      <button class="arrow right" id="arrowRight">→</button>
+      <button class="arrow right" id="next">&#8594;</button>
     </div>
 
     <script>
       const slider = document.querySelector("#slider");
-      const track = slider.querySelector(".slider-track");
+      const track = document.querySelector("#track");
+      const prevBtn = document.querySelector("#prev");
+      const nextBtn = document.querySelector("#next");
 
       let startX = 0;
       let currentTranslate = 0;
       let prevTranslate = 0;
       let isDragging = false;
-
-      // Mobile: Touch
-      slider.addEventListener("touchstart", touchStart);
-      slider.addEventListener("touchmove", touchMove);
-      slider.addEventListener("touchend", touchEnd);
-
-      // Desktop: Mouse
-      slider.addEventListener("mousedown", dragStart);
-      slider.addEventListener("mousemove", dragMove);
-      slider.addEventListener("mouseup", dragEnd);
-      slider.addEventListener("mouseleave", dragEnd); // Stop dragging if mouse leaves area
-
-      function touchStart(e) {
-        startX = e.touches[0].clientX;
-        isDragging = true;
-      }
-
-      function touchMove(e) {
-        if (!isDragging) return;
-        const currentX = e.touches[0].clientX;
-        const diff = currentX - startX;
-        track.style.transform = `translateX(${prevTranslate + diff}px)`;
-      }
-
-      function touchEnd(e) {
-        if (!isDragging) return;
-        isDragging = false;
-        const movedBy = e.changedTouches[0].clientX - startX;
-        handleSlideMovement(movedBy);
-      }
-
-      function dragStart(e) {
-        e.preventDefault(); // prevent text selection
-        startX = e.clientX;
-        isDragging = true;
-      }
-
-      function dragMove(e) {
-        if (!isDragging) return;
-        const currentX = e.clientX;
-        const diff = currentX - startX;
-        track.style.transform = `translateX(${prevTranslate + diff}px)`;
-      }
-
-      function dragEnd(e) {
-        if (!isDragging) return;
-        isDragging = false;
-        const movedBy = e.clientX - startX;
-        handleSlideMovement(movedBy);
-      }
-
-      function handleSlideMovement(movedBy) {
-        const cardWidth = slider.offsetWidth / getSlidesPerView();
-        const threshold = cardWidth / 4;
-
-        if (movedBy < -threshold) {
-          currentTranslate -= cardWidth;
-        } else if (movedBy > threshold) {
-          currentTranslate += cardWidth;
-        }
-
-        const maxTranslate = 0;
-        const trackWidth = track.scrollWidth;
-        const maxNegativeTranslate = slider.offsetWidth - trackWidth;
-
-        currentTranslate = Math.max(
-          maxNegativeTranslate,
-          Math.min(currentTranslate, maxTranslate)
-        );
-
-        track.style.transform = `translateX(${currentTranslate}px)`;
-        prevTranslate = currentTranslate;
-      }
 
       function getSlidesPerView() {
         const width = window.innerWidth;
@@ -192,6 +116,112 @@
         if (width >= 600) return 2;
         return 1;
       }
+
+      function getCardWidth() {
+        return slider.offsetWidth / getSlidesPerView();
+      }
+
+      function updateArrows() {
+        const maxNegativeTranslate = slider.offsetWidth - track.scrollWidth;
+        prevBtn.classList.toggle("disabled", currentTranslate === 0);
+        nextBtn.classList.toggle(
+          "disabled",
+          currentTranslate <= maxNegativeTranslate
+        );
+      }
+
+      function slideToNext() {
+        const cardWidth = getCardWidth();
+        const maxNegativeTranslate = slider.offsetWidth - track.scrollWidth;
+        currentTranslate -= cardWidth;
+        if (currentTranslate < maxNegativeTranslate)
+          currentTranslate = maxNegativeTranslate;
+        track.style.transform = `translateX(${currentTranslate}px)`;
+        prevTranslate = currentTranslate;
+        updateArrows();
+      }
+
+      function slideToPrev() {
+        const cardWidth = getCardWidth();
+        currentTranslate += cardWidth;
+        if (currentTranslate > 0) currentTranslate = 0;
+        track.style.transform = `translateX(${currentTranslate}px)`;
+        prevTranslate = currentTranslate;
+        updateArrows();
+      }
+
+      // Touch Events
+      slider.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+      });
+
+      slider.addEventListener("touchmove", (e) => {
+        if (!isDragging) return;
+        const currentX = e.touches[0].clientX;
+        const diff = currentX - startX;
+        track.style.transform = `translateX(${prevTranslate + diff}px)`;
+      });
+
+      slider.addEventListener("touchend", (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const movedBy = e.changedTouches[0].clientX - startX;
+        handleSwipe(movedBy);
+      });
+
+      // Mouse Events
+      slider.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        startX = e.clientX;
+        isDragging = true;
+      });
+
+      slider.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        const currentX = e.clientX;
+        const diff = currentX - startX;
+        track.style.transform = `translateX(${prevTranslate + diff}px)`;
+      });
+
+      slider.addEventListener("mouseup", (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const movedBy = e.clientX - startX;
+        handleSwipe(movedBy);
+      });
+
+      slider.addEventListener("mouseleave", () => {
+        if (isDragging) {
+          isDragging = false;
+          track.style.transform = `translateX(${prevTranslate}px)`;
+        }
+      });
+
+      function handleSwipe(movedBy) {
+        const cardWidth = getCardWidth();
+        const threshold = cardWidth / 4;
+
+        if (movedBy < -threshold) {
+          slideToNext();
+        } else if (movedBy > threshold) {
+          slideToPrev();
+        } else {
+          track.style.transform = `translateX(${prevTranslate}px)`;
+        }
+      }
+
+      prevBtn.addEventListener("click", slideToPrev);
+      nextBtn.addEventListener("click", slideToNext);
+
+      window.addEventListener("resize", () => {
+        currentTranslate = 0;
+        prevTranslate = 0;
+        track.style.transform = `translateX(0px)`;
+        updateArrows();
+      });
+
+      updateArrows();
     </script>
   </body>
 </html>
