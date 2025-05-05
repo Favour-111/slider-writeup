@@ -97,6 +97,10 @@
         </div>
       </div>
       <button class="arrow right" id="next">&#8594;</button>
+      <div
+        id="pagination"
+        style="text-align: center; margin-top: 10px; font-size: 1rem"
+      ></div>
     </div>
 
     <script>
@@ -109,18 +113,22 @@
       let currentTranslate = 0;
       let prevTranslate = 0;
       let isDragging = false;
+      let slidesPerView = getSlidesPerView(); // Initial value for slides per view
 
+      // Get how many slides are shown per view based on screen width
       function getSlidesPerView() {
         const width = window.innerWidth;
-        if (width >= 900) return 3;
-        if (width >= 600) return 2;
-        return 1;
+        if (width >= 900) return 3; // 3 slides on large screens
+        if (width >= 600) return 2; // 2 slides on medium screens
+        return 1; // 1 slide on small screens
       }
 
+      // Get the width of each card
       function getCardWidth() {
-        return slider.offsetWidth / getSlidesPerView();
+        return slider.offsetWidth / slidesPerView;
       }
 
+      // Update arrows' enabled/disabled states
       function updateArrows() {
         const maxNegativeTranslate = slider.offsetWidth - track.scrollWidth;
         prevBtn.classList.toggle("disabled", currentTranslate === 0);
@@ -130,24 +138,56 @@
         );
       }
 
+      // Update pagination
+      function updatePagination() {
+        const cardsPerView = getSlidesPerView();
+        const totalCards = track.children.length; // Total number of cards
+        const totalGroups = Math.ceil(totalCards / cardsPerView); // Total number of groups
+
+        const currentGroup =
+          Math.floor(Math.abs(currentTranslate) / getCardWidth()) + 1;
+
+        document.getElementById(
+          "pagination"
+        ).textContent = `${currentGroup} / ${totalGroups}`;
+      }
+
+      // Slide to next group
       function slideToNext() {
         const cardWidth = getCardWidth();
         const maxNegativeTranslate = slider.offsetWidth - track.scrollWidth;
-        currentTranslate -= cardWidth;
+        currentTranslate -= cardWidth * slidesPerView;
         if (currentTranslate < maxNegativeTranslate)
           currentTranslate = maxNegativeTranslate;
         track.style.transform = `translateX(${currentTranslate}px)`;
         prevTranslate = currentTranslate;
         updateArrows();
+        updatePagination();
       }
 
+      // Slide to previous group
       function slideToPrev() {
         const cardWidth = getCardWidth();
-        currentTranslate += cardWidth;
+        currentTranslate += cardWidth * slidesPerView;
         if (currentTranslate > 0) currentTranslate = 0;
         track.style.transform = `translateX(${currentTranslate}px)`;
         prevTranslate = currentTranslate;
         updateArrows();
+        updatePagination();
+      }
+
+      // Handle swipe on touch devices
+      function handleSwipe(movedBy) {
+        const cardWidth = getCardWidth();
+        const threshold = cardWidth / 4;
+
+        if (movedBy < -threshold) {
+          slideToNext();
+        } else if (movedBy > threshold) {
+          slideToPrev();
+        } else {
+          track.style.transform = `translateX(${prevTranslate}px)`;
+        }
       }
 
       // Touch Events
@@ -198,30 +238,23 @@
         }
       });
 
-      function handleSwipe(movedBy) {
-        const cardWidth = getCardWidth();
-        const threshold = cardWidth / 4;
-
-        if (movedBy < -threshold) {
-          slideToNext();
-        } else if (movedBy > threshold) {
-          slideToPrev();
-        } else {
-          track.style.transform = `translateX(${prevTranslate}px)`;
-        }
-      }
-
+      // Event listeners for arrow buttons
       prevBtn.addEventListener("click", slideToPrev);
       nextBtn.addEventListener("click", slideToNext);
 
+      // Resize event to adjust number of slides per view
       window.addEventListener("resize", () => {
+        slidesPerView = getSlidesPerView(); // Recalculate slides per view on resize
         currentTranslate = 0;
         prevTranslate = 0;
         track.style.transform = `translateX(0px)`;
         updateArrows();
+        updatePagination();
       });
 
+      // Initialize the slider
       updateArrows();
+      updatePagination();
     </script>
   </body>
 </html>
