@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Circular Percentage Loader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Poppins" !important;
+      }
+
+      .loader-container {
+      }
+
+      .progress-circle {
+        width: 100px;
+        height: 110px;
+        position: relative;
+      }
+
+      .progress-circle svg {
+        transform: rotate(-90deg);
+        width: 100%;
+        height: 100%;
+      }
+
+      .progress-circle circle {
+        fill: none;
+        stroke-width: 1;
+        stroke-linecap: round;
+      }
+
+      .bg {
+        stroke: #eee;
+      }
+
+      .progress {
+        stroke: #e4c48c;
+        stroke-dasharray: 314; /* circumference of the circle */
+        stroke-dashoffset: 314;
+        transition: stroke-dashoffset 0.3s;
+      }
+
+      .percent {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-60%, -50%);
+        font-size: 1.7rem;
+        font-weight: bold;
+      }
+      .load-container {
+        padding: 20px 60px;
+        display: flex;
+        gap: 80px;
+      }
+      .img-cont {
+        position: relative;
+        width: 500px !important;
+        border: 1px solid black;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .img-cont img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        display: block;
+        border-radius: 20px;
+      }
+
+      .writeup {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 15px 20px;
+        border-radius: 0 0 20px 20px;
+        color: #000;
+      }
+
+      .written-1 {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .written-2 {
+        font-size: 20px;
+        font-weight: 300;
+      }
+
+      .loader-head {
+        text-align: center;
+        letter-spacing: 1px;
+        margin-top: 20px;
+        font-size: 17px;
+      }
+      .loader-head2 {
+        text-align: center;
+        letter-spacing: 1px;
+        margin-top: 10px;
+        font-size: 37px;
+      }
+      .progress-cont {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+      .progress-text {
+        font-size: 18px;
+        width: 300px;
+      }
+      .below-line {
+        height: 1px;
+        background-color: #ad686f;
+        margin-top: 10px;
+      }
+      .below-head {
+        font-size: 14px;
+        font-weight: bold;
+        color: #ad686f;
+        margin-top: 10px;
+      }
+      .below-content {
+        font-size: 14px;
+        font-weight: lighter;
+        color: #ad686f;
+        margin-top: 10px;
+      }
+      @media screen and (max-width: 1134px) {
+        .img-cont {
+          width: 350px !important;
+          img {
+            width: 350px !important;
+          }
+        }
+      }
+      @media screen and (max-width: 951px) {
+        .progress-text {
+          width: 250px;
+        }
+        .load-container {
+          gap: 50px;
+        }
+        .img-cont {
+          img {
+            width: 350px !important;
+          }
+        }
+      }
+      @media screen and (max-width: 951px) {
+        .load-container {
+          gap: 30px;
+        }
+      }
+      @media screen and (max-width: 768px) {
+        body {
+          width: 100%;
+        }
+        .load-container {
+          display: flex;
+          flex-direction: column;
+          padding: 20px;
+          gap: 20px;
+        }
+
+        .img-cont {
+          width: 100% !important;
+        }
+        .img-cont img {
+          width: 100% !important;
+        }
+
+        .progress-text {
+          font-size: 14px;
+        }
+      }
+      @media screen and (max-width: 500px) {
+        .loader-head2 {
+          font-size: 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loader-head">THE SCIENCE OF VISIBLE RESULTS</div>
+    <div class="loader-head2">Transform Your Skin After 8 Weeks</div>
+    <div class="load-container">
+      <div class="left-cont">
+        <div class="img-cont">
+          <img
+            src="https://res.cloudinary.com/drn3lmktm/image/upload/v1746196453/after_ozctjp.png"
+            alt="Radiant Skin"
+          />
+          <div class="writeup">
+            <div class="written-1">Visible improvement</div>
+            <div class="written-2">Radiant, Smoother Skin</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="loader-container" id="loaderSection">
+        <div class="progress-cont">
+          <div class="progress-circle" data-target="97">
+            <svg>
+              <circle class="bg" cx="50" cy="50" r="40" />
+              <circle class="progress" cx="50" cy="50" r="40" />
+            </svg>
+            <div class="percent">0%</div>
+          </div>
+          <div class="progress-text">
+            said their looks more radiant and glowing
+          </div>
+        </div>
+        <div class="progress-cont">
+          <div class="progress-circle" data-target="91">
+            <svg>
+              <circle class="bg" cx="50" cy="50" r="40" />
+              <circle class="progress" cx="50" cy="50" r="40" />
+            </svg>
+            <div class="percent">0%</div>
+          </div>
+          <div class="progress-text">said their skin looks younger</div>
+        </div>
+        <div class="progress-cont">
+          <div class="progress-circle" data-target="88">
+            <svg>
+              <circle class="bg" cx="50" cy="50" r="40" />
+              <circle class="progress" cx="50" cy="50" r="40" />
+            </svg>
+            <div class="percent">0%</div>
+          </div>
+          <div class="progress-text">
+            said they saw a visible reduction of fine lines and wrinkles
+          </div>
+        </div>
+        <div class="below-line">.</div>
+        <div class="below-head">Clinical & Consumer Perception Study</div>
+        <div class="below-content">
+          †Claims are based on an independent consumer perception study as well
+          as an expert assessment by a dermatologist in an independent clinical
+          study of 33 people after using the 4-in-1 Skincare Wand and LightBoost
+          Wand Activating Serum 5x per week within an 8-week time period.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const circles = document.querySelectorAll(".progress-circle");
+
+              circles.forEach((circle) => {
+                const target = +circle.getAttribute("data-target");
+                const text = circle.querySelector(".percent");
+                const progress = circle.querySelector(".progress");
+
+                let count = 0;
+                const radius = 40;
+                const circumference = 2 * Math.PI * radius;
+
+                const update = () => {
+                  const remaining = target - count;
+                  let delay = 15;
+
+                  if (remaining < 10) delay = 100;
+                  else if (remaining < 20) delay = 50;
+
+                  if (count <= target) {
+                    text.textContent = count + "%";
+                    const offset =
+                      circumference - (count / 100) * circumference;
+                    progress.style.strokeDashoffset = offset;
+                    count++;
+                    setTimeout(update, delay);
+                  } else {
+                    text.textContent = target + "%";
+                  }
+                };
+
+                // Set initial styles
+                progress.style.strokeDasharray = circumference;
+                progress.style.strokeDashoffset = circumference;
+
+                update();
+              });
+
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.5,
+        }
+      );
+
+      observer.observe(document.getElementById("loaderSection"));
+    </script>
+  </body>
+</html>

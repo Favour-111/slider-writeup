@@ -33,13 +33,7 @@
         padding: 0;
         box-sizing: border-box;
       }
-      .head-carousel {
-        padding: 20px 50px 0 80px;
-        font-family: "Poppins";
-        font-size: 35px;
-        width: 100%;
-        color: #333;
-      }
+
       .Web-Carousel-body {
         display: flex;
         justify-content: center;
@@ -133,29 +127,6 @@
         margin-top: 20px;
         justify-content: center;
       }
-      /* .left-btn {
-        height: 20px;
-        width: 20px;
-        border-radius: 40px;
-        background-color: transparent;
-        border: 1px solid #ad686f;
-        color: #ad686f;
-        font-size: 10px;
-        transition: 250ms;
-        cursor: pointer;
-      }
-      
-      .right-btn {
-        height: 20px;
-        width: 20px;
-        border-radius: 40px;
-        background-color: transparent;
-        border: 1px solid #ad686f;
-        color: #ad686f;
-        font-size: 10px;
-        transition: 250ms;
-        cursor: pointer;
-      } */
 
       .left-btn,
       .right-btn {
@@ -177,17 +148,6 @@
         cursor: not-allowed; /* Disable cursor */
       }
 
-      .carousel-footer {
-        width: 70%;
-        text-align: center;
-        margin-top: 30px;
-        display: flex;
-        align-items: center;
-        justify-self: center;
-        font-family: "Poppins";
-        font-size: 12px;
-        color: #ad686f;
-      }
       /* Medium screens */
       @media (max-width: 919px) {
         .Web-Carousel-body {
@@ -234,7 +194,6 @@
     </style>
   </head>
   <body>
-    <div class="head-carousel">Real Skin. Real Change.</div>
     <div class="Web-Carousel-body">
       <div class="carousel-container2">
         <div class="carousel-wrapper2">
@@ -261,11 +220,7 @@
                 </div>
                 <div class="visible">Visible improvement</div>
                 <div class="carousel-head">Clear & Confident</div>
-                <div class="carousel-contents">
-                  "Thanks to luminence's beef tallow, my skin has never been
-                  clearer. No more breakouts or uneven patches, just smooth
-                  skin."
-                </div>
+                <div class="carousel-contents">"Thanks</div>
                 <div class="carousel-name">Jasmine,32</div>
               </div>
             </div>
@@ -291,10 +246,7 @@
                 </div>
                 <div class="visible">Visible improvement</div>
                 <div class="carousel-head">Ageless Radiance</div>
-                <div class="carousel-contents">
-                  "I’ve tried many products,but Luminence's beef tallow truly
-                  delivers. My skin feels firmerand the lines are softened."
-                </div>
+                <div class="carousel-contents">"I’ve</div>
                 <div class="carousel-name">Monica,31</div>
               </div>
             </div>
@@ -320,10 +272,7 @@
                 </div>
                 <div class="visible">Visible improvement</div>
                 <div class="carousel-head">Sun-Kissed Glow</div>
-                <div class="carousel-contents">
-                  "Luminence's tallow balm transformed my skincare routine.It
-                  keeps my skin soft,radiant, and well-protected."
-                </div>
+                <div class="carousel-contents">"Luminence's</div>
                 <div class="carousel-name">Lena,35</div>
               </div>
             </div>
@@ -349,10 +298,7 @@
                 </div>
                 <div class="visible">Visible improvement</div>
                 <div class="carousel-head">Deep Hydration</div>
-                <div class="carousel-contents">
-                  "My skin was always dry until I discovered Luminence’s tallow
-                  balm.Now it’s smooth, bouncy, and deeply nourished"
-                </div>
+                <div class="carousel-contents">"y "</div>
                 <div class="carousel-name">James,36</div>
               </div>
             </div>
@@ -369,13 +315,7 @@
         </div>
       </div>
     </div>
-    <div class="carousel-footer">
-      Individual results may vary,Everyone's skin is unique and may respond
-      diffrently. Results are not guaranteed. We offer a 30-day money back
-      guarantee so you can exerience it for yourself-love it, or return it
-      hassle-free.
-    </div>
-
+    <div class="carousel-footer">I</div>
     <script>
       const carousel = document.querySelector(".carousel2");
       const leftBtn = document.querySelector(".left-btn");
@@ -411,18 +351,14 @@
 
         // Change background color based on position
         if (currentIndex === 0) {
-          leftBtn.style.backgroundColor = "transparent"; // Light color when at the beginning
-          leftBtn.style.color = "#ad686f"; // Light color when at the beginning
+          leftBtn.style.backgroundColor = "#d3d3d3"; // Light color when at the beginning
         } else {
-          leftBtn.style.color = "#fff";
           leftBtn.style.backgroundColor = "#ad686f"; // Original color
         }
 
         if (currentIndex === totalPages - 1) {
-          rightBtn.style.backgroundColor = "transparent"; // Light color when at the end
-          rightBtn.style.color = "#ad686f"; // Light color when at the end
+          rightBtn.style.backgroundColor = "#d3d3d3"; // Light color when at the end
         } else {
-          rightBtn.style.color = "#fff";
           rightBtn.style.backgroundColor = "#ad686f"; // Original color
         }
       };
@@ -531,5 +467,155 @@
       window.addEventListener("resize", updateCarousel);
       window.addEventListener("load", updateCarousel);
     </script>
+
+    <!-- <script>
+      const carousel = document.querySelector(".carousel2");
+      const paginationInfo = document.querySelector(".pagination-info");
+      const cards = document.querySelectorAll(".card-itm");
+      const leftBtn = document.querySelector(".left-btn");
+      const rightBtn = document.querySelector(".right-btn");
+
+      leftBtn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+          currentIndex -= 1;
+          setPositionByIndex();
+        }
+        updateButtonState(); // Update the button state after clicking
+      });
+
+      rightBtn.addEventListener("click", () => {
+        if (currentIndex < cards.length - getVisibleCards()) {
+          currentIndex += 1;
+          setPositionByIndex();
+        }
+        updateButtonState(); // Update the button state after clicking
+      });
+      window.addEventListener("load", () => {
+        // Initial state when the page loads
+        updateButtonState();
+      });
+
+      function updateButtonState() {
+        if (currentIndex === 0) {
+          leftBtn.style.backgroundColor = "#fff"; // Normal color
+          leftBtn.style.borderColor = "#ad686f"; // Light color when at the start
+          leftBtn.style.color = "#ad686f"; // Optional: change the icon color too
+        } else {
+          leftBtn.style.backgroundColor = "#ad686f"; // Normal color
+          leftBtn.style.borderColor = "#ad686f"; // Normal color
+          leftBtn.style.color = "white"; // Optional: change the icon color too
+        }
+
+        if (currentIndex >= cards.length - getVisibleCards()) {
+          rightBtn.style.backgroundColor = "#fff"; // Normal color
+          rightBtn.style.borderColor = "#ad686f"; // Light color when at the start
+          rightBtn.style.color = "#ad686f"; // Optional: change the icon color too
+        } else {
+          rightBtn.style.backgroundColor = "#ad686f"; // Normal color
+          rightBtn.style.borderColor = "#ad686f"; // Normal color
+          rightBtn.style.color = "white"; // Optional: change the icon color too
+        }
+      }
+
+      let currentIndex = 0;
+      let startX = 0;
+      let currentTranslate = 0;
+      let prevTranslate = 0;
+      let isDragging = false;
+      let animationID;
+      let cardWidth = cards[0].offsetWidth + 20;
+
+      function getVisibleCards() {
+        if (window.innerWidth <= 480) return 1;
+        if (window.innerWidth <= 919) return 2;
+        return 3;
+      }
+
+      function setSliderPosition() {
+        carousel.style.transform = `translateX(${currentTranslate}px)`;
+      }
+
+      function updatePaginationInfo() {
+        const visibleCards = getVisibleCards(); // Number of visible cards based on screen size
+        const scrollLeft = Math.abs(currentTranslate);
+        const firstVisibleIndex = Math.round(scrollLeft / cardWidth);
+        const lastVisibleIndex = Math.min(
+          firstVisibleIndex + visibleCards - 1,
+          cards.length - 1
+        );
+        const current = lastVisibleIndex + 1;
+        const total = cards.length;
+        paginationInfo.textContent = `${current}/${total}`;
+      }
+
+      function setPositionByIndex() {
+        currentTranslate = currentIndex * -cardWidth;
+        prevTranslate = currentTranslate;
+        setSliderPosition();
+        updatePaginationInfo();
+      }
+
+      function animation() {
+        setSliderPosition();
+        if (isDragging) requestAnimationFrame(animation);
+      }
+
+      function touchStart(index) {
+        return function (event) {
+          isDragging = true;
+          startX = getPositionX(event);
+          animationID = requestAnimationFrame(animation);
+          carousel.classList.add("grabbing");
+        };
+      }
+
+      function touchMove(event) {
+        if (isDragging) {
+          const currentPosition = getPositionX(event);
+          currentTranslate = prevTranslate + currentPosition - startX;
+        }
+      }
+
+      function touchEnd() {
+        cancelAnimationFrame(animationID);
+        isDragging = false;
+        const movedBy = currentTranslate - prevTranslate;
+
+        if (movedBy < -100 && currentIndex < cards.length - getVisibleCards()) {
+          currentIndex += 1;
+        }
+        if (movedBy > 100 && currentIndex > 0) {
+          currentIndex -= 1;
+        }
+
+        setPositionByIndex();
+        carousel.classList.remove("grabbing");
+      }
+
+      function getPositionX(event) {
+        return event.type.includes("mouse")
+          ? event.pageX
+          : event.touches[0].clientX;
+      }
+
+      // Event Listeners
+      carousel.addEventListener("mousedown", touchStart(currentIndex));
+      carousel.addEventListener("mousemove", touchMove);
+      carousel.addEventListener("mouseup", touchEnd);
+      carousel.addEventListener("mouseleave", () => {
+        if (isDragging) touchEnd();
+      });
+
+      carousel.addEventListener("touchstart", touchStart(currentIndex));
+      carousel.addEventListener("touchmove", touchMove);
+      carousel.addEventListener("touchend", touchEnd);
+
+      window.addEventListener("resize", () => {
+        cardWidth = cards[0].offsetWidth + 20;
+        setPositionByIndex();
+      });
+
+      setPositionByIndex();
+    </script> -->
   </body>
 </html>
